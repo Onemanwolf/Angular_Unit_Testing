@@ -11,11 +11,13 @@ import { By } from '@angular/platform-browser';
 describe('HerosComponent (shallow)', () => {
   let component: HeroesComponent;
   let HEROS;
-
+  // dependency HeroesComponent requires a HeroService
   let mockHeroService;
 
-  // Create an Array of Heros
+
   let fixture: ComponentFixture<HeroesComponent>;
+
+  // Fake Component for Dom test
   @Component({
     selector: 'app-hero',
     template: '<div></div>',
@@ -25,11 +27,13 @@ describe('HerosComponent (shallow)', () => {
     // @Output() delete = new EventEmitter();
   }
 
+
+
   // 3. Before Each setup TestBed
   beforeEach(() => {
 
     mockHeroService = jasmine.createSpyObj(['getHeroes', 'addHero', 'deleteHero']);
-
+    // Create an Array of Heros
     HEROS = [
       {id: 1, name: 'SpiderDude', strength: 8},
       {id: 2, name: 'Wonderful Woman', strength: 24},
@@ -55,10 +59,12 @@ describe('HerosComponent (shallow)', () => {
     // Delete Method
   describe('delete', () => {
     it('should delete a hero when called', () => {
-      // setup mock observable
+      // setup mock observable with the return Value and the of()
+      // comment out below to see error subscribe undefined
       mockHeroService.deleteHero.and.returnValue(of(true));
       component.heroes = HEROS;
       component.delete(HEROS[2]);
+      //state test
       expect(component.heroes[1].name).toBe('Wonderful Woman');
     })
 
@@ -71,11 +77,16 @@ describe('HerosComponent (shallow)', () => {
 
       // act
       component.delete(HEROS[2]);
-      // assert interaction
+      // assert
+      // interaction test
       expect(mockHeroService.deleteHero).toHaveBeenCalled();
-  })
 
-  })
+      //xit() to skip test got to component and comment out deleteHero
+  });
+
+  
+
+  });
 
   describe('get heros', ()=> {
     it('should set heros correctly from service', () => {

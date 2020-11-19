@@ -1,7 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HeroComponent } from './hero.component';
+
+import { compileComponent } from '@angular/core/src/render3/jit/directive';
 
 
 // 1. Shallow integration Test
@@ -13,15 +15,15 @@ describe('HeroComponent (shallow)', () => {
   let fixture: ComponentFixture<HeroComponent>;
 
   // 3. Before Each setup TestBed
-  beforeEach(() => {
+  beforeEach(async(() => {
 
     // 4. TestBed Configuration will call
     TestBed.configureTestingModule({
       declarations: [HeroComponent],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+     schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
     fixture = TestBed.createComponent(HeroComponent);
-  });
+  }));
 
   it('should correct hero', () => {
     fixture.componentInstance.hero = {id: 1 , name: 'SuperDude', strength: 3};
@@ -52,5 +54,6 @@ describe('HeroComponent (shallow)', () => {
       });
 
   });
+
 
 });
